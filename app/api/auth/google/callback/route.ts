@@ -22,7 +22,8 @@ export async function GET(request: NextRequest) {
     }
     await writeJSON('config.json', updatedConfig)
 
-    return NextResponse.redirect(new URL('/onboarding?step=property', request.url))
+    const appUrl = process.env.APP_URL ?? request.nextUrl.origin
+    return NextResponse.redirect(new URL('/onboarding?step=property', appUrl))
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'OAuth callback failed' },
